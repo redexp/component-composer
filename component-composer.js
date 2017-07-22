@@ -57,7 +57,7 @@
 			}
 		},
 
-		onToolbarItemStartDragging: function () {
+		updateComponentsPositions: function () {
 			var list = [];
 
 			if (this.data.components.length === 0) {
@@ -115,7 +115,7 @@
 			}
 		},
 
-		onToolbarItemDragging: function (item) {
+		updateArrow: function (item) {
 			var pos = item.get('position'),
 				list = this.data.componentsPositions,
 				arrow = this.model('arrow');
@@ -208,6 +208,14 @@
 			});
 		},
 
+		onToolbarItemStartDragging: function () {
+			this.updateComponentsPositions();
+		},
+
+		onToolbarItemDragging: function (item) {
+			this.updateArrow(item);
+		},
+
 		onToolbarItemStopDragging: function (item) {
 			var arrow = this.model('arrow');
 
@@ -224,7 +232,39 @@
 				}
 			});
 
+			component.composer = this;
+
 			arrow.get('parent').model('components').add(component, arrow.get('index'));
+		},
+
+		onComponentStartDragging: function () {
+			this.updateComponentsPositions();
+		},
+
+		onComponentDragging: function (component) {
+			this.updateArrow(component);
+		},
+
+		onComponentStopDragging: function (component) {
+			var arrow = this.model('arrow');
+
+			if (!arrow.get('visible')) return;
+
+			arrow.set('visible', false);
+
+			var parent = arrow.get('parent'),
+				components = parent.model('components'),
+				index = arrow.get('index');
+
+			if (components.indexOf(component) === index) return;
+
+			if (component.parent === parent) {
+				components.move(component, index);
+			}
+			else {
+				component.parent.model('components').remove(component);
+				components.add(component, index);
+			}
 		},
 
 		template: {
@@ -267,9 +307,13 @@
 				each: {
 					prop: 'components',
 					view: function (component) {
+						component.parent = this;
 						return component;
 					},
-					node: '> *:nth-child(2)'
+					node: '> *:nth-child(2)',
+					remove: function (ul, component) {
+						component.node.detach();
+					}
 				}
 			}
 		}
@@ -299,8 +343,8 @@
 			return {
 				dragging: false,
 				offset: {
-					left: 0,
-					top: 0
+					left: 10,
+					top: 10
 				},
 				position: {
 					left: 0,
@@ -381,15 +425,6 @@
 			title: '[data-title]'
 		},
 
-		data: function () {
-			return {
-				offset: {
-					top: 10,
-					left: 10
-				}
-			};
-		},
-
 		onStartDragging: function (e) {
 			Draggable.prototype.onStartDragging.call(this, e);
 
@@ -420,14 +455,14 @@
 	//region ====================== Component =====================================
 
 	function Component(options) {
-		View.call(this, options);
+		Draggable.call(this, options);
 	}
 
-	View.extend({
+	Draggable.extend({
 		constructor: Component,
 
 		ui: {
-			dragBlock: '[data-drag-block]',
+			dragZone: '[data-drag-zone]',
 			title: '[data-title]',
 			edit: '[data-edit]',
 			clone: '[data-clone]',
@@ -439,6 +474,24 @@
 
 		data: {
 			collapsed: false
+		},
+
+		onStartDragging: function (e) {
+			Draggable.prototype.onStartDragging.call(this, e);
+
+			this.composer.onComponentStartDragging(this);
+		},
+
+		onDragging: function (e) {
+			Draggable.prototype.onDragging.call(this, e);
+
+			this.composer.onComponentDragging(this);
+		},
+
+		onStopDragging: function (e) {
+			Draggable.prototype.onStopDragging.call(this, e);
+
+			this.composer.onComponentStopDragging(this);
 		},
 
 		collapse: function () {
@@ -504,6 +557,9 @@
 						component.parent = this;
 
 						return component;
+					},
+					remove: function (ul, component) {
+						component.node.detach();
 					}
 				}
 			}

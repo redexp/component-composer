@@ -1,14 +1,14 @@
 require([
 	'component-composer',
 	'components/row',
-	'components/cell',
+	'components/column',
 	'components/textfield',
 	'components/select',
 	'jquery'
 ], function (
 	Composer,
 	Row,
-	Cell,
+	Column,
 	Textfield,
 	Select,
 	$
@@ -21,9 +21,9 @@ require([
 			node: $('[data-component="row"]').detach()
 		},
 		{
-			title: 'Cell',
-			view: Cell,
-			node: $('[data-component="cell"]').detach()
+			title: 'Column',
+			view: Column,
+			node: $('[data-component="column"]').detach()
 		},
 		{
 			title: 'Text field',
@@ -42,6 +42,4 @@ require([
 	});
 
 	composer.model('toolbar').add(components);
-
-	composer.model('toolbar').moveFrom(1, 0); // Row on first place
 });

@@ -38,6 +38,9 @@
   border-radius: 3px;
   background-color: #fff;
   cursor: pointer;
+  -webkit-user-select: none;
+  -moz-user-select: none;
+  user-select: none;
 }
 .composer .composer-toolbar-item {
   margin: 5px;
@@ -65,6 +68,9 @@
   border-radius: 3px;
   background-color: #fff;
   cursor: pointer;
+  -webkit-user-select: none;
+  -moz-user-select: none;
+  user-select: none;
   margin: 5px;
   position: absolute;
 }

@@ -38,6 +38,9 @@
   border-radius: 3px;
   background-color: #fff;
   cursor: pointer;
+  -webkit-user-select: none;
+  -moz-user-select: none;
+  user-select: none;
 }
 .composer .composer-toolbar-item {
   margin: 5px;
@@ -65,11 +68,17 @@
   border-radius: 3px;
   background-color: #fff;
   cursor: pointer;
+  -webkit-user-select: none;
+  -moz-user-select: none;
+  user-select: none;
   margin: 5px;
   position: absolute;
 }
 .component {
   border: 1px solid #ccc;
+}
+.component > .component-clone {
+  display: none;
 }
 .component .component-toolbar {
   display: flex;
@@ -82,6 +91,9 @@
 .component .component-drag-block {
   cursor: move;
   padding: 5px;
+  -webkit-user-select: none;
+  -moz-user-select: none;
+  user-select: none;
 }
 .component .component-drag-block .fa-arrows {
   color: #adadad;
@@ -112,10 +124,22 @@
 .component.component-collapsed > .component-content {
   display: none !important;
 }
+.component-clone {
+  position: absolute;
+  padding: 5px;
+  border: 1px solid #ccc;
+  border-radius: 3px;
+  background-color: #fff;
+  cursor: pointer;
+  -webkit-user-select: none;
+  -moz-user-select: none;
+  user-select: none;
+}
 .row-component > .component-content {
-  min-height: 30px;
+  min-height: 80px;
   display: flex;
   flex-direction: row;
+  align-items: flex-start;
 }
 .row-component > .component-content > * {
   flex-grow: 1;
@@ -124,12 +148,12 @@
 .row-component > .component-content > *:last-child {
   margin: 0;
 }
-.cell-component > .component-content {
-  min-height: 30px;
+.column-component > .component-content {
+  min-height: 80px;
 }
-.cell-component > .component-content > * {
+.column-component > .component-content > * {
   margin: 0 0 15px 0;
 }
-.cell-component > .component-content > *:last-child {
+.column-component > .component-content > *:last-child {
   margin: 0;
 }

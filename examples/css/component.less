@@ -1,6 +1,10 @@
 .component {
     border: 1px solid #ccc;
 
+    > .component-clone {
+        display: none;
+    }
+
     .component-toolbar {
         display: flex;
         background-color: #f5f5f5;
@@ -14,6 +18,10 @@
     .component-drag-block {
         cursor: move;
         padding: 5px;
+
+        -webkit-user-select: none;
+        -moz-user-select: none;
+        user-select: none;
 
         .fa-arrows {
             color: #adadad;
@@ -55,4 +63,17 @@
     &.component-collapsed > .component-content {
         display: none !important;
     }
+}
+
+.component-clone {
+    position: absolute;
+    padding: 5px;
+    border: 1px solid #ccc;
+    border-radius: 3px;
+    background-color: #fff;
+    cursor: pointer;
+
+    -webkit-user-select: none;
+    -moz-user-select: none;
+    user-select: none;
 }

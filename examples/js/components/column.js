@@ -1,16 +1,16 @@
-define('components/cell', [
+define('components/column', [
 	'component-composer'
 ], function (
 	Composer
 ) {
 
-	function Cell() {
+	function Column() {
 		Composer.ContainerComponent.apply(this, arguments);
 	}
 
 	Composer.ContainerComponent.extend({
-		constructor: Cell
+		constructor: Column
 	});
 
-	return Cell;
+	return Column;
 });

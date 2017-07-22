@@ -26,8 +26,12 @@
 
   <div data-components class="composer-components">
     <div data-component="row" class="component row-component">
+      <div data-drag-clone class="component-clone">
+        <span data-title></span>
+      </div>
+
       <div class="component-toolbar">
-        <div data-drag-block class="component-drag-block">
+        <div data-drag-zone class="component-drag-block">
           <i class="fa fa-arrows"></i>
           <span data-title></span>
         </div>
@@ -44,9 +48,13 @@
       <div data-content data-cells class="component-content"></div>
     </div>
 
-    <div data-component="cell" class="component cell-component">
+    <div data-component="column" class="component column-component">
+      <div data-drag-clone class="component-clone">
+        <span data-title></span>
+      </div>
+
       <div class="component-toolbar">
-        <div data-drag-block class="component-drag-block">
+        <div data-drag-zone class="component-drag-block">
           <i class="fa fa-arrows"></i>
           <span data-title></span>
         </div>
@@ -64,8 +72,12 @@
     </div>
 
     <div data-component="textfield" class="component">
+      <div data-drag-clone class="component-clone">
+        <span data-title></span>
+      </div>
+
       <div class="component-toolbar">
-        <div data-drag-block class="component-drag-block">
+        <div data-drag-zone class="component-drag-block">
           <i class="fa fa-arrows"></i>
           <span data-title></span>
         </div>
@@ -85,8 +97,12 @@
     </div>
 
     <div data-component="select" class="component">
+      <div data-drag-clone class="component-clone">
+        <span data-title></span>
+      </div>
+
       <div class="component-toolbar">
-        <div data-drag-block class="component-drag-block">
+        <div data-drag-zone class="component-drag-block">
           <i class="fa fa-arrows"></i>
           <span data-title></span>
         </div>
@@ -117,7 +133,7 @@
 <script>define('component-composer');</script>
 <script src="../component-composer.js"></script>
 <script src="js/components/row.js"></script>
-<script src="js/components/cell.js"></script>
+<script src="js/components/column.js"></script>
 <script src="js/components/textfield.js"></script>
 <script src="js/components/select.js"></script>
 <script src="js/app.js"></script>

@@ -1,9 +1,9 @@
-.cell-component > .component-content {
+.column-component > .component-content {
   min-height: 30px;
 }
-.cell-component > .component-content > * {
+.column-component > .component-content > * {
   margin: 0 0 15px 0;
 }
-.cell-component > .component-content > *:last-child {
+.column-component > .component-content > *:last-child {
   margin: 0;
 }
