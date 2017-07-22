@@ -43,7 +43,7 @@
   display: none;
 }
 .component .component-content {
-  margin: 10px;
+  margin: 15px;
 }
 .component.component-collapsed > .component-content {
   display: none !important;

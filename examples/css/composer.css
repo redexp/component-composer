@@ -62,6 +62,9 @@
 .composer .composer-components > *:last-child {
   margin: 0;
 }
+.composer.initializing .composer-components > * {
+  display: none;
+}
 .composer-toolbar-item-clone {
   padding: 5px;
   border: 1px solid #ccc;

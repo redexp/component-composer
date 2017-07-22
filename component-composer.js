@@ -47,7 +47,9 @@
 			});
 
 			function getAllComponents(item, i) {
-				callback(item, i);
+				var res = callback(item, i);
+
+				if (res === false) return;
 
 				if (item.data.components && item.data.components.length > 0) {
 					item.data.components.forEach(function (item, i) {
@@ -57,8 +59,11 @@
 			}
 		},
 
-		updateComponentsPositions: function () {
-			var list = [];
+		updateComponentsPositions: function (options) {
+			options = options || {};
+
+			var list = [],
+				exclude = options.exclude;
 
 			if (this.data.components.length === 0) {
 				var main = getContainerOffset(this.ui.components);
@@ -71,6 +76,8 @@
 			}
 
 			this.forEachComponent(function (component, index) {
+				if (component === exclude) return false;
+
 				var offset = getOffset(component.node);
 
 				offset.component = component;
@@ -237,8 +244,8 @@
 			arrow.get('parent').model('components').add(component, arrow.get('index'));
 		},
 
-		onComponentStartDragging: function () {
-			this.updateComponentsPositions();
+		onComponentStartDragging: function (component) {
+			this.updateComponentsPositions({exclude: component});
 		},
 
 		onComponentDragging: function (component) {
@@ -565,13 +572,6 @@
 			}
 		}
 	});
-
-	//endregion
-
-	//region ====================== Utils =========================================
-
-	var requestAnimationFrame = window.requestAnimationFrame || window.mozRequestAnimationFrame ||
-		window.webkitRequestAnimationFrame || window.msRequestAnimationFrame;
 
 	//endregion
 

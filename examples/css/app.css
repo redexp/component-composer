@@ -62,6 +62,9 @@
 .composer .composer-components > *:last-child {
   margin: 0;
 }
+.composer.initializing .composer-components > * {
+  display: none;
+}
 .composer-toolbar-item-clone {
   padding: 5px;
   border: 1px solid #ccc;
@@ -119,7 +122,7 @@
   display: none;
 }
 .component .component-content {
-  margin: 10px;
+  margin: 15px;
 }
 .component.component-collapsed > .component-content {
   display: none !important;

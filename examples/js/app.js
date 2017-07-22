@@ -41,5 +41,7 @@ require([
 		node: '#composer'
 	});
 
+	composer.node.removeClass('initializing');
+
 	composer.model('toolbar').add(components);
 });
