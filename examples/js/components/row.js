@@ -1,14 +1,14 @@
 define('components/row', [
-	'component-composer'
+	'components/container'
 ], function (
-	Composer
+	Container
 ) {
 
 	function Row() {
-		Composer.ContainerComponent.apply(this, arguments);
+		Container.apply(this, arguments);
 	}
 
-	Composer.ContainerComponent.extend({
+	Container.extend({
 		constructor: Row,
 
 		ui: {

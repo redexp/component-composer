@@ -509,6 +509,11 @@
 			this.set('collapsed', false);
 		},
 
+		remove: function () {
+			this.parent.model('components').remove(this);
+			return Draggable.prototype.remove.call(this);
+		},
+
 		template: {
 			'@root': {
 				toggleClass: {
@@ -528,6 +533,12 @@
 			'@expand': {
 				on: {
 					'click': 'expand'
+				}
+			},
+
+			'@remove': {
+				on: {
+					'click': 'remove'
 				}
 			}
 		}
@@ -553,6 +564,16 @@
 				components: [],
 				componentsDirection: 'vertical'
 			}
+		},
+
+		forEachComponent: ComponentComposer.prototype.forEachComponent,
+
+		remove: function () {
+			this.forEachComponent(function (component) {
+				component.off().stopListening();
+			});
+
+			return Component.prototype.remove.call(this);
 		},
 
 		template: {

@@ -1,14 +1,14 @@
 define('components/select', [
-	'component-composer'
+	'components/component'
 ], function (
-	Composer
+	Component
 ) {
 
 	function Select() {
-		Composer.Component.apply(this, arguments);
+		Component.apply(this, arguments);
 	}
 
-	Composer.Component.extend({
+	Component.extend({
 		constructor: Select,
 
 		template: {

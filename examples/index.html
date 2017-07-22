@@ -5,6 +5,7 @@
   <title>Example</title>
   <link rel="stylesheet" href="css/app.css"/>
   <link rel="stylesheet" href="../libs/font-awesome/css/font-awesome.min.css"/>
+  <link rel="stylesheet" href="../libs/bootstrap/dist/css/bootstrap.min.css"/>
 </head>
 <body>
 
@@ -25,6 +26,7 @@
   </div>
 
   <div data-components class="composer-components">
+
     <div data-component="row" class="component row-component">
       <div data-drag-clone class="component-clone">
         <span data-title></span>
@@ -37,11 +39,21 @@
         </div>
 
         <div class="component-edit-toolbar">
-          <button data-edit><i class="fa fa-pencil"></i></button>
-          <button data-clone><i class="fa fa-clone"></i></button>
-          <button data-remove><i class="fa fa-trash"></i></button>
-          <button data-collapse><i class="fa fa-angle-up"></i></button>
-          <button data-expand><i class="fa fa-angle-down"></i></button>
+          <div data-menu class="btn-group">
+            <button data-open-menu type="button" class="btn btn-default btn-xs dropdown-toggle">
+              Actions <span class="caret"></span>
+            </button>
+            <ul class="dropdown-menu dropdown-menu-right">
+              <li data-edit><a href="#">Edit</a></li>
+              <li data-copy><a href="#">Copy</a></li>
+              <li data-clone><a href="#">Clone</a></li>
+              <li class="divider"></li>
+              <li data-remove><a href="#">Delete</a></li>
+            </ul>
+          </div>
+
+          <button data-collapse class="btn btn-xs btn-default"><i class="fa fa-angle-up"></i></button>
+          <button data-expand class="btn btn-xs btn-default"><i class="fa fa-angle-down"></i></button>
         </div>
       </div>
 
@@ -60,11 +72,21 @@
         </div>
 
         <div class="component-edit-toolbar">
-          <button data-edit><i class="fa fa-pencil"></i></button>
-          <button data-clone><i class="fa fa-clone"></i></button>
-          <button data-remove><i class="fa fa-trash"></i></button>
-          <button data-collapse><i class="fa fa-angle-up"></i></button>
-          <button data-expand><i class="fa fa-angle-down"></i></button>
+          <div data-menu class="btn-group">
+            <button data-open-menu type="button" class="btn btn-default btn-xs dropdown-toggle">
+              Actions <span class="caret"></span>
+            </button>
+            <ul class="dropdown-menu dropdown-menu-right">
+              <li data-edit><a href="#">Edit</a></li>
+              <li data-copy><a href="#">Copy</a></li>
+              <li data-clone><a href="#">Clone</a></li>
+              <li class="divider"></li>
+              <li data-remove><a href="#">Delete</a></li>
+            </ul>
+          </div>
+
+          <button data-collapse class="btn btn-xs btn-default"><i class="fa fa-angle-up"></i></button>
+          <button data-expand class="btn btn-xs btn-default"><i class="fa fa-angle-down"></i></button>
         </div>
       </div>
 
@@ -83,11 +105,21 @@
         </div>
 
         <div class="component-edit-toolbar">
-          <button data-edit><i class="fa fa-pencil"></i></button>
-          <button data-clone><i class="fa fa-clone"></i></button>
-          <button data-remove><i class="fa fa-trash"></i></button>
-          <button data-collapse><i class="fa fa-angle-up"></i></button>
-          <button data-expand><i class="fa fa-angle-down"></i></button>
+          <div data-menu class="btn-group">
+            <button data-open-menu type="button" class="btn btn-default btn-xs dropdown-toggle">
+              Actions <span class="caret"></span>
+            </button>
+            <ul class="dropdown-menu dropdown-menu-right">
+              <li data-edit><a href="#">Edit</a></li>
+              <li data-copy><a href="#">Copy</a></li>
+              <li data-clone><a href="#">Clone</a></li>
+              <li class="divider"></li>
+              <li data-remove><a href="#">Delete</a></li>
+            </ul>
+          </div>
+
+          <button data-collapse class="btn btn-xs btn-default"><i class="fa fa-angle-up"></i></button>
+          <button data-expand class="btn btn-xs btn-default"><i class="fa fa-angle-down"></i></button>
         </div>
       </div>
 
@@ -108,11 +140,21 @@
         </div>
 
         <div class="component-edit-toolbar">
-          <button data-edit><i class="fa fa-pencil"></i></button>
-          <button data-clone><i class="fa fa-clone"></i></button>
-          <button data-remove><i class="fa fa-trash"></i></button>
-          <button data-collapse><i class="fa fa-angle-up"></i></button>
-          <button data-expand><i class="fa fa-angle-down"></i></button>
+          <div data-menu class="btn-group">
+            <button data-open-menu type="button" class="btn btn-default btn-xs dropdown-toggle">
+              Actions <span class="caret"></span>
+            </button>
+            <ul class="dropdown-menu dropdown-menu-right">
+              <li data-edit><a href="#">Edit</a></li>
+              <li data-copy><a href="#">Copy</a></li>
+              <li data-clone><a href="#">Clone</a></li>
+              <li class="divider"></li>
+              <li data-remove><a href="#">Delete</a></li>
+            </ul>
+          </div>
+
+          <button data-collapse class="btn btn-xs btn-default"><i class="fa fa-angle-up"></i></button>
+          <button data-expand class="btn btn-xs btn-default"><i class="fa fa-angle-down"></i></button>
         </div>
       </div>
 
@@ -132,6 +174,8 @@
 <script src="../libs/declarative-view/declarative-view.js"></script>
 <script>define('component-composer');</script>
 <script src="../component-composer.js"></script>
+<script src="js/components/component.js"></script>
+<script src="js/components/container.js"></script>
 <script src="js/components/row.js"></script>
 <script src="js/components/column.js"></script>
 <script src="js/components/textfield.js"></script>

@@ -1,14 +1,14 @@
 define('components/column', [
-	'component-composer'
+	'components/container'
 ], function (
-	Composer
+	Container
 ) {
 
 	function Column() {
-		Composer.ContainerComponent.apply(this, arguments);
+		Container.apply(this, arguments);
 	}
 
-	Composer.ContainerComponent.extend({
+	Container.extend({
 		constructor: Column
 	});
 

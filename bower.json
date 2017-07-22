@@ -25,6 +25,7 @@
   "devDependencies": {
     "font-awesome": "fontawesome#^4.7.0",
     "define-module-name": "^1.9.2",
-    "jquery-ui": "jquery.ui#^1.12.1"
+    "jquery-ui": "jquery.ui#^1.12.1",
+    "bootstrap": "^3.3.7"
   }
 }

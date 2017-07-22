@@ -1,14 +1,14 @@
 define('components/textfield', [
-	'component-composer'
+	'components/component'
 ], function (
-	Composer
+	Component
 ) {
 
 	function Textfield() {
-		Composer.Component.apply(this, arguments);
+		Component.apply(this, arguments);
 	}
 
-	Composer.Component.extend({
+	Component.extend({
 		constructor: Textfield,
 
 		template: {
