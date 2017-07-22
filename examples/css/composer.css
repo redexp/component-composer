@@ -1,0 +1,70 @@
+.composer .composer-arrow {
+  position: absolute;
+  display: none;
+}
+.composer .composer-arrow i {
+  position: relative;
+  color: #3ba04c;
+}
+.composer .composer-arrow .fa-arrow-right {
+  left: -13px;
+  top: -8px;
+}
+.composer .composer-arrow .fa-arrow-down {
+  left: -8px;
+  top: -13px;
+}
+.composer .composer-arrow[data-direction="vertical"] .fa-arrow-right {
+  display: inline-block;
+}
+.composer .composer-arrow[data-direction="vertical"] .fa-arrow-down {
+  display: none;
+}
+.composer .composer-arrow[data-direction="horizontal"] .fa-arrow-right {
+  display: none;
+}
+.composer .composer-arrow[data-direction="horizontal"] .fa-arrow-down {
+  display: inline-block;
+}
+.composer .composer-toolbar {
+  border: 1px solid #ccc;
+  margin-bottom: 20px;
+  padding: 5px;
+  display: flex;
+}
+.composer .composer-toolbar-item {
+  padding: 5px;
+  border: 1px solid #ccc;
+  border-radius: 3px;
+  background-color: #fff;
+  cursor: pointer;
+}
+.composer .composer-toolbar-item {
+  margin: 5px;
+}
+.composer .composer-toolbar-item .composer-toolbar-item-clone {
+  display: none;
+}
+.composer .composer-toolbar-item-clone {
+  position: absolute;
+}
+.composer .composer-components {
+  border: 1px solid #ccc;
+  min-height: 30px;
+  padding: 15px;
+}
+.composer .composer-components > * {
+  margin: 0 0 15px 0;
+}
+.composer .composer-components > *:last-child {
+  margin: 0;
+}
+.composer-toolbar-item-clone {
+  padding: 5px;
+  border: 1px solid #ccc;
+  border-radius: 3px;
+  background-color: #fff;
+  cursor: pointer;
+  margin: 5px;
+  position: absolute;
+}

@@ -1,0 +1,58 @@
+.component {
+    border: 1px solid #ccc;
+
+    .component-toolbar {
+        display: flex;
+        background-color: #f5f5f5;
+        border-bottom: 1px solid #ccc;
+
+        .component-drag-block {
+            flex: 1;
+        }
+    }
+
+    .component-drag-block {
+        cursor: move;
+        padding: 5px;
+
+        .fa-arrows {
+            color: #adadad;
+        }
+    }
+
+    .component-edit-toolbar {
+        padding: 5px;
+
+        button {
+            display: inline-block;
+            margin-left: 3px;
+            cursor: pointer;
+        }
+    }
+
+    .component-toolbar {
+        [data-expand] {
+            display: none;
+        }
+        [data-collapse] {
+            display: inline-block;
+        }
+    }
+
+    &.component-collapsed > .component-toolbar {
+        [data-expand] {
+            display: inline-block;
+        }
+        [data-collapse] {
+            display: none;
+        }
+    }
+
+    .component-content {
+        margin: 10px;
+    }
+
+    &.component-collapsed > .component-content {
+        display: none !important;
+    }
+}

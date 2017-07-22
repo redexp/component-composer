@@ -1,0 +1,126 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>Example</title>
+  <link rel="stylesheet" href="css/app.css"/>
+  <link rel="stylesheet" href="../libs/font-awesome/css/font-awesome.min.css"/>
+</head>
+<body>
+
+<div id="composer" class="composer">
+  <div data-arrow data-direction="vertical" class="composer-arrow">
+    <i class="fa fa-arrow-right"></i>
+    <i class="fa fa-arrow-down"></i>
+  </div>
+
+  <div data-toolbar class="composer-toolbar">
+    <div class="composer-toolbar-item">
+      <span data-title></span>
+
+      <div data-drag-clone class="composer-toolbar-item-clone">
+        <span data-title></span>
+      </div>
+    </div>
+  </div>
+
+  <div data-components class="composer-components">
+    <div data-component="row" class="component row-component">
+      <div class="component-toolbar">
+        <div data-drag-block class="component-drag-block">
+          <i class="fa fa-arrows"></i>
+          <span data-title></span>
+        </div>
+
+        <div class="component-edit-toolbar">
+          <button data-edit><i class="fa fa-pencil"></i></button>
+          <button data-clone><i class="fa fa-clone"></i></button>
+          <button data-remove><i class="fa fa-trash"></i></button>
+          <button data-collapse><i class="fa fa-angle-up"></i></button>
+          <button data-expand><i class="fa fa-angle-down"></i></button>
+        </div>
+      </div>
+
+      <div data-content data-cells class="component-content"></div>
+    </div>
+
+    <div data-component="cell" class="component cell-component">
+      <div class="component-toolbar">
+        <div data-drag-block class="component-drag-block">
+          <i class="fa fa-arrows"></i>
+          <span data-title></span>
+        </div>
+
+        <div class="component-edit-toolbar">
+          <button data-edit><i class="fa fa-pencil"></i></button>
+          <button data-clone><i class="fa fa-clone"></i></button>
+          <button data-remove><i class="fa fa-trash"></i></button>
+          <button data-collapse><i class="fa fa-angle-up"></i></button>
+          <button data-expand><i class="fa fa-angle-down"></i></button>
+        </div>
+      </div>
+
+      <div data-content data-components class="component-content"></div>
+    </div>
+
+    <div data-component="textfield" class="component">
+      <div class="component-toolbar">
+        <div data-drag-block class="component-drag-block">
+          <i class="fa fa-arrows"></i>
+          <span data-title></span>
+        </div>
+
+        <div class="component-edit-toolbar">
+          <button data-edit><i class="fa fa-pencil"></i></button>
+          <button data-clone><i class="fa fa-clone"></i></button>
+          <button data-remove><i class="fa fa-trash"></i></button>
+          <button data-collapse><i class="fa fa-angle-up"></i></button>
+          <button data-expand><i class="fa fa-angle-down"></i></button>
+        </div>
+      </div>
+
+      <div data-content class="component-content">
+        <input data-input type="text"/>
+      </div>
+    </div>
+
+    <div data-component="select" class="component">
+      <div class="component-toolbar">
+        <div data-drag-block class="component-drag-block">
+          <i class="fa fa-arrows"></i>
+          <span data-title></span>
+        </div>
+
+        <div class="component-edit-toolbar">
+          <button data-edit><i class="fa fa-pencil"></i></button>
+          <button data-clone><i class="fa fa-clone"></i></button>
+          <button data-remove><i class="fa fa-trash"></i></button>
+          <button data-collapse><i class="fa fa-angle-up"></i></button>
+          <button data-expand><i class="fa fa-angle-down"></i></button>
+        </div>
+      </div>
+
+      <div data-content class="component-content">
+        <select data-select>
+          <option></option>
+        </select>
+      </div>
+    </div>
+  </div>
+</div>
+
+<script src="../libs/define-module-name/define-module-name.min.js"></script>
+<script>define('jquery');</script>
+<script src="../libs/jquery/dist/jquery.min.js"></script>
+<script>define('declarative-view');</script>
+<script src="../libs/declarative-view/declarative-view.js"></script>
+<script>define('component-composer');</script>
+<script src="../component-composer.js"></script>
+<script src="js/components/row.js"></script>
+<script src="js/components/cell.js"></script>
+<script src="js/components/textfield.js"></script>
+<script src="js/components/select.js"></script>
+<script src="js/app.js"></script>
+<script>define.end();</script>
+</body>
+</html>

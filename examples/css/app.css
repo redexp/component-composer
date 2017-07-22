@@ -1,0 +1,135 @@
+.composer .composer-arrow {
+  position: absolute;
+  display: none;
+}
+.composer .composer-arrow i {
+  position: relative;
+  color: #3ba04c;
+}
+.composer .composer-arrow .fa-arrow-right {
+  left: -13px;
+  top: -8px;
+}
+.composer .composer-arrow .fa-arrow-down {
+  left: -8px;
+  top: -13px;
+}
+.composer .composer-arrow[data-direction="vertical"] .fa-arrow-right {
+  display: inline-block;
+}
+.composer .composer-arrow[data-direction="vertical"] .fa-arrow-down {
+  display: none;
+}
+.composer .composer-arrow[data-direction="horizontal"] .fa-arrow-right {
+  display: none;
+}
+.composer .composer-arrow[data-direction="horizontal"] .fa-arrow-down {
+  display: inline-block;
+}
+.composer .composer-toolbar {
+  border: 1px solid #ccc;
+  margin-bottom: 20px;
+  padding: 5px;
+  display: flex;
+}
+.composer .composer-toolbar-item {
+  padding: 5px;
+  border: 1px solid #ccc;
+  border-radius: 3px;
+  background-color: #fff;
+  cursor: pointer;
+}
+.composer .composer-toolbar-item {
+  margin: 5px;
+}
+.composer .composer-toolbar-item .composer-toolbar-item-clone {
+  display: none;
+}
+.composer .composer-toolbar-item-clone {
+  position: absolute;
+}
+.composer .composer-components {
+  border: 1px solid #ccc;
+  min-height: 30px;
+  padding: 15px;
+}
+.composer .composer-components > * {
+  margin: 0 0 15px 0;
+}
+.composer .composer-components > *:last-child {
+  margin: 0;
+}
+.composer-toolbar-item-clone {
+  padding: 5px;
+  border: 1px solid #ccc;
+  border-radius: 3px;
+  background-color: #fff;
+  cursor: pointer;
+  margin: 5px;
+  position: absolute;
+}
+.component {
+  border: 1px solid #ccc;
+}
+.component .component-toolbar {
+  display: flex;
+  background-color: #f5f5f5;
+  border-bottom: 1px solid #ccc;
+}
+.component .component-toolbar .component-drag-block {
+  flex: 1;
+}
+.component .component-drag-block {
+  cursor: move;
+  padding: 5px;
+}
+.component .component-drag-block .fa-arrows {
+  color: #adadad;
+}
+.component .component-edit-toolbar {
+  padding: 5px;
+}
+.component .component-edit-toolbar button {
+  display: inline-block;
+  margin-left: 3px;
+  cursor: pointer;
+}
+.component .component-toolbar [data-expand] {
+  display: none;
+}
+.component .component-toolbar [data-collapse] {
+  display: inline-block;
+}
+.component.component-collapsed > .component-toolbar [data-expand] {
+  display: inline-block;
+}
+.component.component-collapsed > .component-toolbar [data-collapse] {
+  display: none;
+}
+.component .component-content {
+  margin: 10px;
+}
+.component.component-collapsed > .component-content {
+  display: none !important;
+}
+.row-component > .component-content {
+  min-height: 30px;
+  display: flex;
+  flex-direction: row;
+}
+.row-component > .component-content > * {
+  flex-grow: 1;
+  margin: 0 15px 0 0;
+}
+.row-component > .component-content > *:last-child {
+  margin: 0;
+}
+.cell-component > .component-content {
+  min-height: 30px;
+}
+.cell-component > .component-content > * {
+  margin: 0 0 15px 0;
+}
+.cell-component > .component-content > *:last-child {
+  margin: 0;
+}
