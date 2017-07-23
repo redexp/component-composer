@@ -232,13 +232,13 @@
 
 			var component = new item.context.view({
 				parent: this,
-				context: item.context,
 				node: item.context.node && item.context.node.clone(),
 				data: {
 					title: item.context.title
 				}
 			});
 
+			component.context = item.context;
 			component.composer = this;
 
 			arrow.get('parent').model('components').add(component, arrow.get('index'));
@@ -272,6 +272,40 @@
 				component.parent.model('components').remove(component);
 				components.add(component, index);
 			}
+		},
+
+		cloneComponent: function (component) {
+			var context = component.context,
+				data = $.extend({}, component.data),
+				components = data.components;
+
+			if (components) {
+				data.components = [];
+			}
+
+			var clone = new context.view({
+				context: context,
+				node: context.node && context.node.clone(),
+				data: data
+			});
+
+			clone.context = context;
+			clone.composer = this;
+
+			if (components) {
+				var list = clone.model('components');
+
+				for (var i = 0, len = components.length; i < len; i++) {
+					list.add(this.cloneComponent(components[i]));
+				}
+			}
+
+			return clone;
+		},
+
+		removeComponent: function (component) {
+			component.parent.model('components').remove(component);
+			Draggable.prototype.remove.call(component);
 		},
 
 		template: {
@@ -509,9 +543,14 @@
 			this.set('collapsed', false);
 		},
 
+		clone: function () {
+			var clone = this.composer.cloneComponent(this);
+			var list = this.parent.model('components');
+			list.add(clone, list.indexOf(this) + 1);
+		},
+
 		remove: function () {
-			this.parent.model('components').remove(this);
-			return Draggable.prototype.remove.call(this);
+			this.composer.removeComponent(this);
 		},
 
 		template: {
@@ -533,6 +572,12 @@
 			'@expand': {
 				on: {
 					'click': 'expand'
+				}
+			},
+
+			'@clone': {
+				on: {
+					'click': 'clone'
 				}
 			},
 

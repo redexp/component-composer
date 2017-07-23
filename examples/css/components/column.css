@@ -1,5 +1,5 @@
 .column-component > .component-content {
-  min-height: 30px;
+  min-height: 80px;
 }
 .column-component > .component-content > * {
   margin: 0 0 15px 0;

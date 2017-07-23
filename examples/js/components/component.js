@@ -17,8 +17,18 @@ define('components/component', [
 			menuOpened: false
 		},
 
+		closeMenu: function () {
+			this.set('menuOpened', false);
+		},
+
 		toggleMenu: function () {
 			this.set('menuOpened', !this.get('menuOpened'));
+		},
+
+		clone: function () {
+			this.closeMenu();
+
+			return Composer.Component.prototype.clone.call(this);
 		},
 
 		template: {
@@ -35,7 +45,7 @@ define('components/component', [
 
 				'& .dropdown-menu': {
 					on: {
-						'click': '!toggleMenu'
+						'click': '!closeMenu'
 					}
 				}
 			}
