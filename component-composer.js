@@ -14,6 +14,9 @@
 
 	function ComponentComposer(options) {
 		View.call(this, options);
+
+		this.documentBody = $(document.body);
+		this.listenOn(this.documentBody, 'keydown', this.validatePasteStartDragging);
 	}
 
 	View.extend({
@@ -38,7 +41,8 @@
 		ui: {
 			arrow: '> [data-arrow]',
 			toolbar: '> [data-toolbar]',
-			components: '> [data-components]'
+			components: '> [data-components]',
+			copyTextarea: '<textarea style="position: fixed; left: -1000px;">'
 		},
 
 		forEachComponent: function (callback) {
@@ -97,7 +101,7 @@
 				}
 			});
 
-			this.data.componentsPositions = list;
+			this.componentsPositions = list;
 
 			function getOffset(node) {
 				var offset = node.offset();
@@ -122,9 +126,8 @@
 			}
 		},
 
-		updateArrow: function (item) {
-			var pos = item.get('position'),
-				list = this.data.componentsPositions,
+		updateArrow: function (pos) {
+			var list = this.componentsPositions,
 				arrow = this.model('arrow');
 
 			for (var i = list.length - 1; i > -1; i--) {
@@ -220,10 +223,12 @@
 		},
 
 		onToolbarItemDragging: function (item) {
-			this.updateArrow(item);
+			this.updateArrow(item.get('position'));
 		},
 
 		onToolbarItemStopDragging: function (item) {
+			this.componentsPositions = null;
+
 			var arrow = this.model('arrow');
 
 			if (!arrow.get('visible')) return;
@@ -234,7 +239,8 @@
 				parent: this,
 				node: item.context.node && item.context.node.clone(),
 				data: {
-					title: item.context.title
+					title: item.context.title,
+					viewName: item.context.viewName || item.context.view.name
 				}
 			});
 
@@ -249,10 +255,12 @@
 		},
 
 		onComponentDragging: function (component) {
-			this.updateArrow(component);
+			this.updateArrow(component.get('position'));
 		},
 
 		onComponentStopDragging: function (component) {
+			this.componentsPositions = null;
+
 			var arrow = this.model('arrow');
 
 			if (!arrow.get('visible')) return;
@@ -272,6 +280,50 @@
 				component.parent.model('components').remove(component);
 				components.add(component, index);
 			}
+		},
+
+		validatePasteStartDragging: function (e) {
+			if (e.keyCode !== 17) return;
+
+			this.onPasteStartDragging(e);
+		},
+
+		onPasteStartDragging: function (e) {
+			this.updateComponentsPositions();
+
+			this.listenOn(this.documentBody, 'mousemove.onPasteDragging', this.onPasteDragging);
+			this.listenOn(this.documentBody, 'keyup.onPasteStopDragging', this.onPasteStopDragging);
+		},
+
+		onPasteDragging: function (e) {
+			this.updateArrow({top: e.pageY, left: e.pageX});
+		},
+
+		onPasteStopDragging: function (e) {
+			if (e.keyCode !== 17) return;
+
+			this.componentsPositions = null;
+			this.model('arrow').set('visible', false);
+			this.stopListening(this.documentBody, 'mousemove.onPasteDragging');
+			this.stopListening(this.documentBody, 'mousemove.onPasteStopDragging');
+		},
+
+		copyComponent: function (component) {
+			var json = JSON.stringify(component);
+
+			this.ui.copyTextarea
+				.appendTo('body')
+				.val(json)
+				.get(0)
+				.select()
+			;
+
+			document.execCommand('copy');
+
+			this.ui.copyTextarea
+				.detach()
+				.val('')
+			;
 		},
 
 		cloneComponent: function (component) {
@@ -506,6 +558,7 @@
 			dragZone: '[data-drag-zone]',
 			title: '[data-title]',
 			edit: '[data-edit]',
+			copy: '[data-copy]',
 			clone: '[data-clone]',
 			remove: '[data-remove]',
 			collapse: '[data-collapse]',
@@ -543,6 +596,10 @@
 			this.set('collapsed', false);
 		},
 
+		copy: function () {
+			this.composer.copyComponent(this);
+		},
+
 		clone: function () {
 			var clone = this.composer.cloneComponent(this);
 			var list = this.parent.model('components');
@@ -551,6 +608,20 @@
 
 		remove: function () {
 			this.composer.removeComponent(this);
+		},
+
+		toJSON: function () {
+			var data = $.extend({}, this.data);
+
+			if (data.components) {
+				data.components = data.components.map(function (component) {
+					return component.toJSON();
+				});
+			}
+
+			data.viewName = data.viewName || this.constructor.name;
+
+			return data;
 		},
 
 		template: {
@@ -572,6 +643,12 @@
 			'@expand': {
 				on: {
 					'click': 'expand'
+				}
+			},
+
+			'@copy': {
+				on: {
+					'click': 'copy'
 				}
 			},
 

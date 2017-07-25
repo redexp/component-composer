@@ -25,10 +25,16 @@ define('components/component', [
 			this.set('menuOpened', !this.get('menuOpened'));
 		},
 
+		copy: function () {
+			this.closeMenu();
+
+			return Component.__super__.copy.call(this);
+		},
+
 		clone: function () {
 			this.closeMenu();
 
-			return Composer.Component.prototype.clone.call(this);
+			return Component.__super__.clone.call(this);
 		},
 
 		template: {
