@@ -293,6 +293,7 @@
 
 			this.listenOn(this.documentBody, 'mousemove.onPasteDragging', this.onPasteDragging);
 			this.listenOn(this.documentBody, 'keyup.onPasteStopDragging', this.onPasteStopDragging);
+			this.listenOn(this.documentBody, 'paste.onPaste', this.onPaste);
 		},
 
 		onPasteDragging: function (e) {
@@ -306,6 +307,70 @@
 			this.model('arrow').set('visible', false);
 			this.stopListening(this.documentBody, 'mousemove.onPasteDragging');
 			this.stopListening(this.documentBody, 'mousemove.onPasteStopDragging');
+			this.stopListening(this.documentBody, 'paste.onPaste');
+		},
+
+		onPaste: function (e) {
+			var arrow = this.model('arrow');
+
+			if (!arrow.get('visible')) return;
+
+			var json = e.originalEvent.clipboardData.getData('text');
+
+			try {
+				var data = JSON.parse(json);
+			}
+			catch (err) {
+				console.error('JSON.parse() error:', err);
+				return;
+			}
+
+			var component = this.createComponent(data);
+
+			var components = arrow.get('parent').model('components'),
+				index = arrow.get('index');
+
+			components.add(component, index);
+		},
+
+		createComponent: function (data) {
+			if (data instanceof Array) {
+				var self = this;
+				return data
+					.map(function (data) {
+						return self.createComponent(data);
+					})
+					.filter(function (component) {
+						return !!component;
+					})
+				;
+			}
+
+			var item = this.model('toolbar').find(function (item) {
+				return item.viewName === data.viewName || item.view.name === data.viewName;
+			});
+
+			if (!item) {
+				console.warn("Can't find view with name", data.viewName);
+				return;
+			}
+
+			var components = data.components;
+
+			if (components) {
+				data.components = [];
+			}
+
+			var component = new item.view({
+				node: item.node && item.node.clone(),
+				data: data
+			});
+
+			if (components) {
+				component.model('components').add(this.createComponent(components));
+			}
+
+			return component;
 		},
 
 		copyComponent: function (component) {
@@ -327,6 +392,13 @@
 		},
 
 		cloneComponent: function (component) {
+			if (component instanceof Array) {
+				var self = this;
+				return component.map(function (component) {
+					return self.cloneComponent(component);
+				});
+			}
+
 			var context = component.context,
 				data = $.extend({}, component.data),
 				components = data.components;
@@ -345,11 +417,7 @@
 			clone.composer = this;
 
 			if (components) {
-				var list = clone.model('components');
-
-				for (var i = 0, len = components.length; i < len; i++) {
-					list.add(this.cloneComponent(components[i]));
-				}
+				clone.model('components').add(this.cloneComponent(components));
 			}
 
 			return clone;
