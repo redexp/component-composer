@@ -15,9 +15,12 @@
 	function ComponentComposer(options) {
 		View.call(this, options);
 
+		this.window = $(window);
 		this.documentBody = $(document.body);
 		this.listenOn(this.documentBody, 'keydown', this.validatePasteStartDragging);
 	}
+
+	ComponentComposer.CUT_KEY = 'ComponentComposer:cut';
 
 	View.extend({
 		constructor: ComponentComposer,
@@ -239,6 +242,7 @@
 				parent: this,
 				node: item.context.node && item.context.node.clone(),
 				data: {
+					uuid: uuid(),
 					title: item.context.title,
 					viewName: item.context.viewName || item.context.view.name
 				}
@@ -325,12 +329,23 @@
 				return;
 			}
 
-			var component = this.createComponent(data);
-
 			var components = arrow.get('parent').model('components'),
 				index = arrow.get('index');
 
-			components.add(component, index);
+			var component = this.getComponentByUuid(data.uuid),
+				cutKey = ComponentComposer.CUT_KEY,
+				cutUuid = localStorage.getItem(cutKey);
+
+			if (component && component.data.uuid === cutUuid) {
+				this.onComponentStopDragging(component);
+			}
+			else {
+				component = this.createComponent(data);
+				this.updateComponentUuid(component);
+				components.add(component, index);
+			}
+
+			localStorage.removeItem(cutKey);
 		},
 
 		createComponent: function (data) {
@@ -366,11 +381,38 @@
 				data: data
 			});
 
+			component.composer = this;
+
 			if (components) {
 				component.model('components').add(this.createComponent(components));
 			}
 
 			return component;
+		},
+
+		updateComponentUuid: function (component) {
+			component.data.uuid = uuid();
+			if (component.data.components) {
+				var self = this;
+				component.data.components.forEach(function (component) {
+					self.updateComponentUuid(component);
+				});
+			}
+		},
+
+		getComponentByUuid: function (uuid) {
+			function find(list) {
+				for (var i = 0, len = list.length; i < len; i++) {
+					var item = list[i];
+					if (item.data.uuid === uuid) return item;
+					if (item.data.components) {
+						return find(item.data.components);
+					}
+				}
+			}
+
+			return find(this.data.components);
+
 		},
 
 		copyComponent: function (component) {
@@ -389,6 +431,28 @@
 				.detach()
 				.val('')
 			;
+		},
+
+		cutComponent: function (component) {
+			this.copyComponent(component);
+
+			this.stopListening(this.window, 'storage.cutComponent');
+
+			var cutKey = ComponentComposer.CUT_KEY;
+
+			localStorage.setItem(cutKey, component.data.uuid);
+
+			this.listenOn(this.window, 'storage.cutComponent', function (e) {
+				e = e.originalEvent;
+
+				if (e.key !== cutKey) return;
+
+				if (!e.newValue) {
+					this.removeComponent(component);
+				}
+
+				this.stopListening(this.window, 'storage.cutComponent');
+			});
 		},
 
 		cloneComponent: function (component) {
@@ -626,6 +690,7 @@
 			dragZone: '[data-drag-zone]',
 			title: '[data-title]',
 			edit: '[data-edit]',
+			cut: '[data-cut]',
 			copy: '[data-copy]',
 			clone: '[data-clone]',
 			remove: '[data-remove]',
@@ -666,6 +731,10 @@
 
 		copy: function () {
 			this.composer.copyComponent(this);
+		},
+
+		cut: function () {
+			this.composer.cutComponent(this);
 		},
 
 		clone: function () {
@@ -717,6 +786,12 @@
 			'@copy': {
 				on: {
 					'click': 'copy'
+				}
+			},
+
+			'@cut': {
+				on: {
+					'click': 'cut'
 				}
 			},
 
@@ -783,6 +858,39 @@
 			}
 		}
 	});
+
+	//endregion
+
+	//region ====================== Utils =========================================
+
+	var uuid = (function () {
+		return (window.crypto && typeof window.crypto.getRandomValues === 'function') ?
+			function () {
+				// If we have a cryptographically secure PRNG, use that
+				// http://stackoverflow.com/questions/6906916/collisions-when-generating-uuids-in-javascript
+				var buf = new Uint16Array(8);
+				window.crypto.getRandomValues(buf);
+				var S4 = function(num){
+					var ret = num.toString(16);
+					while (ret.length < 4) {
+						ret = "0" + ret;
+					}
+					return ret;
+				};
+				return (S4(buf[0]) + S4(buf[1]) + "-" + S4(buf[2]) + "-" + S4(buf[3]) + "-" + S4(buf[4]) + "-" + S4(buf[5]) + S4(buf[6]) + S4(buf[7]));
+			}
+			:
+			function () {
+				// Otherwise, just use Math.random
+				// http://stackoverflow.com/questions/105034/how-to-create-a-guid-uuid-in-javascript/2117523#2117523
+				return 'xxxxxxxx-xxxx-4xxx-yxxx-xxxxxxxxxxxx'.replace(/[xy]/g, function(c){
+					var r = Math.random() * 16 | 0,
+						v = c == 'x' ? r : (r & 0x3 | 0x8);
+					return v.toString(16);
+				});
+			}
+		;
+	})();
 
 	//endregion
 

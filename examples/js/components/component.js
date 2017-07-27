@@ -25,6 +25,12 @@ define('components/component', [
 			this.set('menuOpened', !this.get('menuOpened'));
 		},
 
+		cut: function () {
+			this.closeMenu();
+
+			return Component.__super__.cut.call(this);
+		},
+
 		copy: function () {
 			this.closeMenu();
 
