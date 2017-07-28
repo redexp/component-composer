@@ -319,7 +319,13 @@
 
 			if (!arrow.get('visible')) return;
 
-			var json = e.originalEvent.clipboardData.getData('text');
+			try {
+				var json = e.originalEvent.clipboardData.getData('text');
+			}
+			catch (err) {
+				console.error('clipboardData.getData() error:', err);
+				return;
+			}
 
 			try {
 				var data = JSON.parse(json);
