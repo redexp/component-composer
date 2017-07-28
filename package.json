@@ -14,7 +14,7 @@
     "composer",
     "elements"
   ],
-  "author": "Sergii Kliuchnyk <redexp@ukr.net> (https://github.com/redexp)",
+  "author": "Sergii Kliuchnyk <redexp@ukr.net>",
   "license": "MIT",
   "bugs": {
     "url": "https://github.com/redexp/component-composer/issues"
