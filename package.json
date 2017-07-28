@@ -24,5 +24,9 @@
   "dependencies": {
     "declarative-view": "1.*"
   },
-  "devDependencies": {}
+  "devDependencies": {
+    "gulp": "^3.9.1",
+    "gulp-replace": "^0.6.1",
+    "gulp-uglifyjs": "^0.6.2"
+  }
 }
