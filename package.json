@@ -20,5 +20,8 @@
     "url": "https://github.com/redexp/component-composer/issues"
   },
   "homepage": "https://github.com/redexp/component-composer#readme",
+  "dependencies": {
+    "declarative-view": "1.*"
+  },
   "devDependencies": {}
 }
