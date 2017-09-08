@@ -37,7 +37,8 @@
 				},
 				toolbar: [],
 				components: [],
-				componentsDirection: 'vertical'
+				componentsDirection: 'vertical',
+				componentClassProp: 'type'
 			};
 		},
 
@@ -238,14 +239,17 @@
 
 			arrow.set('visible', false);
 
+			var data = {
+				uuid: uuid(),
+				title: item.context.title
+			};
+
+			data[this.data.componentClassProp] = item.context[this.data.componentClassProp] || item.context.view.name;
+
 			var component = new item.context.view({
 				parent: this,
 				node: item.context.node && item.context.node.clone(),
-				data: {
-					uuid: uuid(),
-					title: item.context.title,
-					viewName: item.context.viewName || item.context.view.name
-				}
+				data: data
 			});
 
 			component.context = item.context;
@@ -367,12 +371,14 @@
 				;
 			}
 
+			var classProp = this.data.componentClassProp;
+
 			var item = this.model('toolbar').find(function (item) {
-				return item.viewName === data.viewName || item.view.name === data.viewName;
+				return item[classProp] === data[classProp] || item.view.name === data[classProp];
 			});
 
 			if (!item) {
-				console.warn("Can't find view with name", data.viewName);
+				console.warn("Can't find view with name", data[classProp]);
 				return;
 			}
 
@@ -761,7 +767,7 @@
 				});
 			}
 
-			data.viewName = data.viewName || this.constructor.name;
+			data[this.composer.data.componentClassProp] = data[this.composer.data.componentClassProp] || this.constructor.name;
 
 			return data;
 		},
