@@ -541,7 +541,6 @@
 						component.parent = this;
 						return component;
 					},
-					node: '> *:nth-child(2)',
 					remove: function (ul, component) {
 						component.node.detach();
 					}
