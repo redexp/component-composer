@@ -9,7 +9,14 @@ define('components/column', [
 	}
 
 	Container.extend({
-		constructor: Column
+		constructor: Column,
+
+		data: function () {
+			return {
+				componentsProp: ['component', 'rows'],
+				componentsDirection: 'vertical'
+			};
+		}
 	});
 
 	return Column;

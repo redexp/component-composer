@@ -1,9 +1,7 @@
 define('components/component', [
-	'component-composer',
-	'jquery'
+	'component-composer'
 ], function (
-	Composer,
-	$
+	Composer
 ) {
 
 	function Component() {
@@ -43,6 +41,10 @@ define('components/component', [
 			return Component.__super__.clone.call(this);
 		},
 
+		delete: function () {
+			this.parent.model(this.parent.data.componentsProp).remove(this.data.component);
+		},
+
 		template: {
 			'[data-menu]': {
 				toggleClass: {
@@ -59,20 +61,16 @@ define('components/component', [
 					on: {
 						'click': '!closeMenu'
 					}
+				},
+
+				'& [data-remove]': {
+					on: {
+						'click': 'delete'
+					}
 				}
 			}
 
 		}
-	});
-
-	function Container() {
-		Component.apply(this, arguments);
-	}
-
-	Component.extend({
-		constructor: Container,
-
-
 	});
 
 	return Component;

@@ -11,12 +11,11 @@ define('components/row', [
 	Container.extend({
 		constructor: Row,
 
-		ui: {
-			components: '[data-cells]'
-		},
-
-		data: {
-			componentsDirection: 'horizontal'
+		data: function () {
+			return {
+				componentsProp: ['component', 'cells'],
+				componentsDirection: 'horizontal'
+			};
 		}
 	});
 
