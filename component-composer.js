@@ -242,7 +242,7 @@
 
 			parent
 				.model(parent.data.componentsProp)
-				.add(item.data.type.data(), arrow.get('index'))
+				.add(this.getComponentData(item.data.type), arrow.get('index'))
 			;
 		},
 
@@ -297,6 +297,10 @@
 			}
 
 			throw new Error('Unknown type ' + JSON.stringify(type));
+		},
+
+		getComponentData: function (item) {
+			return item.data();
 		},
 
 		template: function () {
