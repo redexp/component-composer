@@ -7,6 +7,13 @@ define('components/row', [
 	function Row() {
 		Container.apply(this, arguments);
 	}
+	
+	Row.data = function () {
+		return {
+			type: 'row',
+			cells: []
+		};
+	};
 
 	Container.extend({
 		constructor: Row,

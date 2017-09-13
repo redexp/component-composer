@@ -32,10 +32,9 @@
 				toolbar: [],
 				components: [],
 				componentsDirection: 'vertical',
-				componentClassProp: 'type',
-				componentIDProp: 'id',
 				componentsProp: 'components',
-				componentsViewProp: 'component'
+				componentDataProp: 'component',
+				componentTypeProp: 'type'
 			};
 		},
 
@@ -243,7 +242,7 @@
 
 			parent
 				.model(parent.data.componentsProp)
-				.add(item.data.componentData(), arrow.get('index'))
+				.add(item.data.type.data(), arrow.get('index'))
 			;
 		},
 
@@ -267,7 +266,7 @@
 			var newParent = arrow.get('parent'),
 				oldParent = component.parent,
 				list = newParent.model(newParent.data.componentsProp),
-				item = component.data[oldParent.data.componentsViewProp],
+				item = component.data[oldParent.data.componentDataProp],
 				index = arrow.get('index');
 
 			if (list.indexOf(item) === index) return;
@@ -282,19 +281,22 @@
 		},
 
 		getComponentView: function (data) {
-			var classProp = this.data.componentClassProp,
-				type = data[classProp];
+			var typeProp = this.data.componentTypeProp,
+				type = data[typeProp];
 
-			if (!type) return;
+			if (!type) {
+				throw new Error('Undefined prop ' + JSON.stringify(typeProp));
+			}
 
-			var list = this.data.toolbar;
+			var types = this.data.types;
 
-			for (var i = 0, len = list.length; i < len; i++) {
-				var item = list[i];
-				if (item[classProp] === type) {
-					return item.componentView;
+			for (var i = 0, item; item = types[i]; i++) {
+				if (item.id === type) {
+					return typeof item === 'function' ? item : item.view;
 				}
 			}
+
+			throw new Error('Unknown type ' + JSON.stringify(type));
 		},
 
 		template: function () {
@@ -317,8 +319,9 @@
 
 				'@toolbar': {
 					each: {
-						prop: 'toolbar',
-						view: ToolbarItem
+						prop: 'types',
+						view: ToolbarItem,
+						dataProp: 'type'
 					}
 				},
 
@@ -326,7 +329,7 @@
 					each: {
 						prop: this.data.componentsProp,
 						view: this.getComponentView,
-						viewProp: this.data.componentsViewProp,
+						dataProp: this.data.componentDataProp,
 						node: false
 					}
 				}
@@ -442,6 +445,13 @@
 		},
 
 		onStartDragging: function (e) {
+			var zone = this.ui.dragZone.offset();
+
+			this.model('offset').set({
+				top: e.pageY - zone.top,
+				left: e.pageX - zone.left
+			});
+
 			Draggable.prototype.onStartDragging.call(this, e);
 
 			this.parent.onToolbarItemStartDragging(this);
@@ -461,7 +471,7 @@
 
 		template: {
 			'@title': {
-				text: '=title'
+				text: '=type.title'
 			}
 		}
 	});
@@ -515,7 +525,7 @@
 
 		data: {
 			componentsProp: ['component', 'components'],
-			componentsViewProp: 'component',
+			componentDataProp: 'component',
 			componentsDirection: 'vertical'
 		},
 
@@ -529,7 +539,7 @@
 						view: function (item) {
 							return this.composer.getComponentView(item);
 						},
-						viewProp: this.data.componentsViewProp,
+						dataProp: this.data.componentDataProp,
 						node: false
 					}
 				}

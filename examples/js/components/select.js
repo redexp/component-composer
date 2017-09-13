@@ -7,6 +7,12 @@ define('components/select', [
 	function Select() {
 		Component.apply(this, arguments);
 	}
+	
+	Select.data = function () {
+		return {
+			type: 'select'
+		};
+	};
 
 	Component.extend({
 		constructor: Select,

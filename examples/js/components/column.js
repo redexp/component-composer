@@ -7,6 +7,13 @@ define('components/column', [
 	function Column() {
 		Container.apply(this, arguments);
 	}
+	
+	Column.data = function () {
+		return {
+			type: 'column',
+			rows: []
+		};
+	};
 
 	Container.extend({
 		constructor: Column,

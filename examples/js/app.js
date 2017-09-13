@@ -22,46 +22,32 @@ require([
 	var composer = new Composer({
 		node: '#composer',
 		data: {
-			toolbar: [
+			types: [
 				{
-					type: 'row',
+					id: 'row',
 					title: 'Row',
-					componentView: Row,
-					componentData: function () {
-						return {
-							type: 'row',
-							cells: []
-						};
-					}
+					view: Row,
+					data: Row.data
 				},
 				{
-					type: 'column',
+					id: 'column',
 					title: 'Column',
-					componentView: Column,
-					componentData: function () {
-						return {
-							type: 'column',
-							rows: []
-						};
-					}
+					view: Column,
+					data: Column.data
 				},
 				{
-					type: 'textfield',
+					id: 'select',
+					title: 'Dropdown',
+					view: Select,
+					data: Select.data
+				},
+				{
+					id: 'textfield',
 					title: 'Text field',
-					componentView: Textfield,
-					componentData: function () {
+					view: Textfield,
+					data: function () {
 						return {
 							type: 'textfield'
-						};
-					}
-				},
-				{
-					type: 'select',
-					title: 'Select',
-					componentView: Select,
-					componentData: function () {
-						return {
-							type: 'select'
 						};
 					}
 				}
@@ -87,8 +73,4 @@ require([
 			]
 		}
 	});
-
-	composer.node.removeClass('initializing');
-
-	window.test = composer;
 });
