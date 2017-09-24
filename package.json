@@ -1,6 +1,6 @@
 {
   "name": "component-composer",
-  "version": "1.4.0",
+  "version": "1.4.1",
   "description": "Composer of visual components",
   "main": "component-composer.js",
   "scripts": {

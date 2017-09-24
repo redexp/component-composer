@@ -60,11 +60,8 @@
 			}
 		},
 
-		updateComponentsPositions: function (options) {
-			options = options || {};
-
-			var list = [],
-				exclude = options.exclude;
+		updateComponentsPositions: function () {
+			var list = [];
 
 			if (this.data[this.data.componentsProp].length === 0) {
 				var main = getContainerOffset(this.ui.components);
@@ -77,8 +74,6 @@
 			}
 
 			this.forEachComponent(function (component, index) {
-				if (component === exclude) return false;
-
 				var offset = getOffset(component.node);
 
 				offset.component = component;
@@ -142,7 +137,7 @@
 							direction: offset.direction,
 							top: offset.innerTop,
 							left: offset.innerLeft,
-							visible: true,
+							visible: offset.component !== pos.component,
 							component: null,
 							parent: offset.component,
 							index: 0
@@ -159,7 +154,7 @@
 							direction: offset.direction,
 							top: offset.top,
 							left: offset.left,
-							visible: true,
+							visible: offset.component !== pos.component,
 							component: offset.component,
 							parent: offset.component.parent,
 							index: offset.index
@@ -172,7 +167,7 @@
 							direction: offset.direction,
 							top: offset.bottom,
 							left: offset.left,
-							visible: true,
+							visible: offset.component !== pos.component,
 							component: offset.component,
 							parent: offset.component.parent,
 							index: offset.index + 1
@@ -189,7 +184,7 @@
 							direction: offset.direction,
 							top: offset.top,
 							left: offset.left,
-							visible: true,
+							visible: offset.component !== pos.component,
 							component: offset.component,
 							parent: offset.component.parent,
 							index: offset.index
@@ -202,7 +197,7 @@
 							direction: offset.direction,
 							top: offset.top,
 							left: offset.right,
-							visible: true,
+							visible: offset.component !== pos.component,
 							component: offset.component,
 							parent: offset.component.parent,
 							index: offset.index + 1
@@ -246,12 +241,17 @@
 			;
 		},
 
-		onComponentStartDragging: function (component) {
-			this.updateComponentsPositions({exclude: component});
+		onComponentStartDragging: function () {
+			this.updateComponentsPositions();
 		},
 
 		onComponentDragging: function (component) {
-			this.updateArrow(component.get('position'));
+			var pos = component.get('position');
+			this.updateArrow({
+				top: pos.top,
+				left: pos.left,
+				component: component
+			});
 		},
 
 		onComponentStopDragging: function (component) {
